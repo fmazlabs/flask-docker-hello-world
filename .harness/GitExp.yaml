@@ -4,17 +4,10 @@ pipeline:
   projectIdentifier: GitExperienceDemo
   orgIdentifier: default
   tags: {}
-  properties:
-    ci:
-      codebase:
-        connectorRef: account.fmazlabsgit
-        repoName: flask-docker-hello-world
-        build: <+input>
   stages:
     - stage:
         name: buildpy
         identifier: buildpy
-        description: ""
         type: CI
         spec:
           cloneCodebase: true
@@ -48,3 +41,9 @@ pipeline:
                     tags:
                       - <+codebase.tag>
                     optimize: false
+  properties:
+    ci:
+      codebase:
+        connectorRef: account.fmazlabsgit
+        repoName: flask-docker-hello-world
+        build: <+input>
