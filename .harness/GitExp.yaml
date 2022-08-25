@@ -1,0 +1,50 @@
+pipeline:
+  name: GitExp
+  identifier: GitExp
+  projectIdentifier: GitExperienceDemo
+  orgIdentifier: default
+  tags: {}
+  properties:
+    ci:
+      codebase:
+        connectorRef: account.fmazlabsgit
+        repoName: flask-docker-hello-world
+        build: <+input>
+  stages:
+    - stage:
+        name: buildpy
+        identifier: buildpy
+        description: ""
+        type: CI
+        spec:
+          cloneCodebase: true
+          infrastructure:
+            type: KubernetesDirect
+            spec:
+              connectorRef: account.Harness_Kubernetes_Cluster
+              namespace: ng-delegate
+              automountServiceAccountToken: true
+              nodeSelector: {}
+              os: Linux
+          execution:
+            steps:
+              - step:
+                  type: Run
+                  name: python
+                  identifier: python
+                  spec:
+                    connectorRef: account.harnessImage
+                    image: python:latest
+                    shell: Sh
+                    command: echo "python"
+                  description: dummy
+              - step:
+                  type: BuildAndPushDockerRegistry
+                  name: bulidpushdocker
+                  identifier: bulidpushdocker
+                  spec:
+                    connectorRef: account.harnessImage
+                    repo: francislabs/gitexp
+                    tags:
+                      - <+codebase.tag>
+                    optimize: false
