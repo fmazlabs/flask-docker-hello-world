@@ -1,0 +1,39 @@
+pipeline:
+  name: PythonHub
+  identifier: PythonHub
+  projectIdentifier: GitExperienceDemo
+  orgIdentifier: default
+  tags: {}
+  properties:
+    ci:
+      codebase:
+        connectorRef: account.fmazlabsgit
+        repoName: flask-docker-hello-world
+        build: <+input>
+  stages:
+    - stage:
+        name: CI
+        identifier: CI
+        description: ""
+        type: CI
+        spec:
+          cloneCodebase: true
+          execution:
+            steps:
+              - step:
+                  type: Run
+                  name: Demo
+                  identifier: Demo
+                  spec:
+                    connectorRef: account.harnessImage
+                    image: alpine:latest
+                    shell: Sh
+                    command: echo "Hello Git"
+          infrastructure:
+            type: KubernetesDirect
+            spec:
+              connectorRef: account.Harness_Kubernetes_Cluster
+              namespace: harness-ng-delegate
+              automountServiceAccountToken: true
+              nodeSelector: {}
+              os: Linux
