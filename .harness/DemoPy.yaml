@@ -1,0 +1,53 @@
+pipeline:
+  name: DemoPy
+  identifier: DemoPy
+  projectIdentifier: GitExperienceDemo
+  orgIdentifier: default
+  tags: {}
+  stages:
+    - stage:
+        name: deploy
+        identifier: deploy
+        description: ""
+        type: Deployment
+        spec:
+          serviceConfig:
+            serviceRef: servicegite
+            serviceDefinition:
+              spec:
+                variables: []
+              type: Kubernetes
+          infrastructure:
+            environmentRef: preprod
+            infrastructureDefinition:
+              type: KubernetesDirect
+              spec:
+                connectorRef: account.Harness_Kubernetes_Cluster
+                namespace: harness-ng-delegate
+                releaseName: release-<+INFRA_KEY>
+            allowSimultaneousDeployments: false
+          execution:
+            steps:
+              - step:
+                  type: ShellScript
+                  name: Script Deploy
+                  identifier: Script_Deploy
+                  spec:
+                    shell: Bash
+                    onDelegate: true
+                    source:
+                      type: Inline
+                      spec:
+                        script: echo "test"
+                    environmentVariables: []
+                    outputVariables: []
+                    executionTarget: {}
+                  timeout: 10m
+            rollbackSteps: []
+        tags: {}
+        failureStrategies:
+          - onFailure:
+              errors:
+                - AllErrors
+              action:
+                type: StageRollback
