@@ -33,7 +33,7 @@ pipeline:
             type: KubernetesDirect
             spec:
               connectorRef: account.Harness_Kubernetes_Cluster
-              namespace: harness-ng-delegate
+              namespace: ns-francis
               automountServiceAccountToken: true
               nodeSelector: {}
               os: Linux
