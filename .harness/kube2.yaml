@@ -1,0 +1,12 @@
+connector:
+  name: kube2
+  identifier: kube2
+  description: ""
+  orgIdentifier: default
+  projectIdentifier: GitExperienceDemo
+  type: K8sCluster
+  spec:
+    credential:
+      type: InheritFromDelegate
+    delegateSelectors:
+    - fmdelgatehnss
