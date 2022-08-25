@@ -39,7 +39,7 @@ pipeline:
                     connectorRef: account.harnessImage
                     repo: francislabs/gitexp
                     tags:
-                      - <+codebase.tag>
+                      - latest
                     optimize: false
   properties:
     ci:
